@@ -1,0 +1,48 @@
+<html>
+<head>
+    <title>Midburn</title>
+	<link href='https://fonts.googleapis.com/css?family=Alef:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://secondsale.midburn.org.s3-website-eu-west-1.amazonaws.com/css/style.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <script>
+        var today = new Date();
+        var expiry = new Date(today.getTime() + 600 * 1000);  
+
+        function setCookie(name, value)
+        {
+            document.cookie=name + "=" + escape(value) + "; path=/; expires=" + expiry.toGMTString();
+        }
+        function putCookie(form)
+        //this should set the UserName cookie to the proper value;
+        {
+            setCookie("email", form[0].email.value);
+//            alert(form[0].email.value);
+
+            return true;
+        }
+    </script>
+</head>
+<body>
+
+<div id="header">
+    <img id="logo" src="http://secondsale.midburn.org.s3-website-eu-west-1.amazonaws.com/images/logo.png" />
+</div>
+
+<div id="content">
+    <h1 class="rtl">ברוכים הבאים לתור של מידברן</h1>
+    <h1 class="ltr">Welcome to the Midburn queue</h1>
+    <div id="text">
+        <p class="rtl">אנא הכניסו את המייל של הפרופיל שלכם (שימו לב שהמייל הוקלד נכון!) ולחצו על המשך לכניסה לתור.</p>
+        <p class="ltr">Please enter your profile account email (Be mindful of typos!) and click submit to enter the queue.</p>
+           <form action="./thanks.html" name="form" >
+            <div id="email-label">E-mail:</div>
+            <input type="email" name="email" class="ltr"/><br />
+            <input type="submit" value="Sign-Up"  onclick="putCookie(document.getElementsByTagName('form'));">
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

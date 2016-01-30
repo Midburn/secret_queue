@@ -1,0 +1,69 @@
+/* layout */
+/* line 3, ../sass/style.scss */
+body {
+  background-image: url("../images/background.jpg");
+  background-size: cover;
+  font-family: 'Alef';
+  direction: rtl;
+  margin: 0; }
+
+/* line 11, ../sass/style.scss */
+.rtl {
+  direction: rtl; }
+
+/* line 15, ../sass/style.scss */
+.ltr {
+  direction: ltr;
+  text-align: left; }
+
+/* header */
+/* line 23, ../sass/style.scss */
+#header {
+  background: #21272d;
+  padding: 10px;
+  text-align: center; }
+  /* line 28, ../sass/style.scss */
+  #header #logo {
+    height: 36px; }
+
+/* content */
+/* line 35, ../sass/style.scss */
+#content {
+  max-width: 400px;
+  margin: auto;
+  background: white;
+  border-radius: 15px;
+  padding: 10px 30px;
+  margin-top: 30px;
+  padding-bottom: 20px; }
+  /* line 44, ../sass/style.scss */
+  #content #text.center {
+    text-align: center; }
+  /* line 48, ../sass/style.scss */
+  #content h1 {
+    font-size: 21px;
+    text-align: center; }
+  /* line 54, ../sass/style.scss */
+  #content form #email-label {
+    text-align: left;
+    direction: ltr; }
+  /* line 58, ../sass/style.scss */
+  #content form input[type='email'] {
+    font-size: 15px;
+    padding: 6px 8px;
+    width: 100%; }
+  /* line 63, ../sass/style.scss */
+  #content form input[type='submit'] {
+    width: 100%;
+    padding: 11px;
+    background: #3954cc;
+    color: white;
+    border: 0;
+    margin-top: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    font-family: 'Alef'; }
+    /* line 74, ../sass/style.scss */
+    #content form input[type='submit']:hover {
+      background: #21379B; }
+.email { font-weight: bold; }
