@@ -2,7 +2,7 @@
 
   <head>
     <title>Midburn</title>
-    <link href='https://fonts.googleapis.com/css?family=Alef:400,700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Alef:400,700" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/style.css">
 
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
@@ -23,47 +23,37 @@
         <p class="ltr">The queue is not open yet. Please wait for  back on Saturday, the 30th of January, @ 7PM (Israel time). No need to refresh the page, it is done automatically.</p>
       </div>
   
-      <div>
+      <div class="ltr">
         <div class="loader">Loading...</div>
-        <span id="last-update"></span>
+        <div id="last-update">&nbsp;</div>
       </div>
-
     </div>
 
     <script type="text/javascript">
-      function queue_status() {
-        actionurl = "https://midburn-queue.herokuapp.com/status";
-        $.ajax({
-          url: actionurl,
-          type: 'post',
-          contentType: "application/json; charset=utf-8",
-          success: function() {
+      var requestActive = false;
+      var actionUrl = 'https://midburn-queue.herokuapp.com/status';
+      var interval = 10000;
+
+      function queueStatus() {
+        if (!requestActive) {
+          requestActive = true;
+          $.ajax({
+            url: actionUrl,
+            type: 'post',
+            contentType: 'application/json; charset=utf-8'
+          }).done(function(xhr, status, error) {
             window.location='register.html'
-          },
-          error: function(xhr, status, error) {
-            if (xhr.status == 503) {
-              window.location='register.html'
-            };
-            
-            if (xhr.status != 403 ) {
-              window.location='closed.html'
-            };
-          },
-          complete: function() {
-            currentdate = new Date();
-            document.getElementById("last-update").innerHTML = currentdate.getDate() + "/"
-              + (currentdate.getMonth()+1)  + "/" 
-              + currentdate.getFullYear() + " @ "  
-              + currentdate.getHours() + ":"  
-              + currentdate.getMinutes() + ":" 
-              + currentdate.getSeconds();
-          }
-        });
+          }).always(function(xhr, status, error) {
+            requestActive = false;
+            $('#last-update').html(new Date());
+          });
+        }
       }
-      queue_status();
-      window.setInterval(queue_status, 10000);
+      
+      $(document).ready(function() {
+        queueStatus();
+        window.setInterval(queueStatus, interval);
+      });
     </script>
-
   </body>
-
 </html>
