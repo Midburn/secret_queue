@@ -1,0 +1,78 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Midburn - Tickets Queue</title>
+    <link href="https://fonts.googleapis.com/css?family=Alef:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  </head>
+
+  <body>
+    <div id="header">
+        <img id="logo" src="images/logo.png">
+    </div>
+
+    <div id="content">
+      <h1 class="rtl">ברוכים הבאים לתור של מידברן</h1>
+      <h1 class="ltr">Welcome to the Midburn queue</h1>
+      <div id="text">
+        <p class="rtl">אנא הכניסו את המייל של הפרופיל שלכם (שימו לב שהמייל הוקלד נכון!) ולחצו על המשך לכניסה לתור.</p>
+        <p class="ltr">Please enter your profile account email (Be mindful of typos!) and click submit to enter the queue.</p>
+      </div>
+      <div class="queue-form-wrapper">
+        <form id="queue-form">          
+          <div>שם פרטי - First Name:</div>
+          <input type="text" required="" class="rtl field" id="name"><br>
+          
+		  <div>שם משפחה - Last Name:</div>
+          <input type="text" required="" class="rtl field" id="family"><br>
+          
+        <div>E-mail:</div>
+          <input id="user-email" type="email" name="email" id="user-email" class="ltr field"><br>
+          <input type="submit" value="Continue" id="do-request" disabled>
+        </form>
+        <div id="message" class="ltr">
+        </div>
+      </div>
+    </div>
+  <script type="text/javascript">
+    var actionUrl = 'https://midburn-queue.herokuapp.com/enqueue';
+    checkForm = function() {
+        if ($('#name').val() != '' && $('#family').val() != '' && $('#user-email').val() != '') {
+            $('#do-request').attr('disabled', false);
+        } else {
+            $('#do-request').attr('disabled', 'disabled');
+        }
+    };
+    
+    $(document).ready(function() {
+        $('.field').keyup(function() {
+           checkForm();
+        });
+        $('.field').blur(function() {
+           checkForm();
+        });
+        $('#do-request').click(function() {
+            $('#do-request').attr('disabled', 'disabled');
+            var user = $('#user-email').val();
+            $.ajax({
+                url: actionUrl,
+                type: 'post',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ "username": user })  
+            }).done(function(xhr, status, error) {
+                window.location='thanks.html?user=' + user;
+            }).fail(function(xhr, status, error) {
+                setTimeout(function() {
+                    $('#message').html('You are too early. Please Try again.');
+                    $('#do-request').attr('disabled', false);    
+                }, 5000);
+                
+            });
+        });
+    });
+  </script>
+  </body>
+</html>
