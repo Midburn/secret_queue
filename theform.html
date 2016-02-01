@@ -63,7 +63,7 @@
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify({ "username": user })  
             }).done(function(xhr, status, error) {
-                window.location='thanks.html?user=' + user;
+                window.location='thanks.html?email=' + user;
             }).fail(function(xhr, status, error) {
                 setTimeout(function() {
                     $('#message').html('You are too early, or too late. Please Try again.');

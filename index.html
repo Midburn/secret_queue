@@ -42,7 +42,7 @@
             type: 'post',
             contentType: 'application/json; charset=utf-8'
           }).done(function(xhr, status, error) {
-            window.location='theform.html'
+            window.location='theform.html';
           }).always(function(xhr, status, error) {
             requestActive = false;
             $('#last-update').html(new Date());
