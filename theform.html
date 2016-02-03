@@ -48,24 +48,7 @@
         }
     };
   
-    sendToSQS = function(email) {
-        queue.sendMessage({MessageBody: email}, function (error, data) {
-            if (error) {
-                $timeout(function() {
-                    sendToSQS(email);
-                }, 1000);
-            } else {
-                window.location = './thanks.html?email=' + email;
-            }
-        });
-    };
-    
     $(document).ready(function() {
-        AWS.config.update({accessKeyId: 'AKIAIQM5XJE5LRUWGTOQ', secretAccessKey: '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'});
-        AWS.config.region = 'us-west-1';
-
-        queue = new AWS.SQS({params: {QueueUrl: 'https://sqs.eu-west-1.amazonaws.com/102505786118/midburn'}});
-
         var actionUrl = 'https://midburn-queue.herokuapp.com/enqueue';
 
         $('.field').keyup(function() {
@@ -77,20 +60,19 @@
         $('#do-request').click(function() {
             $('#do-request').attr('disabled', 'disabled');
             var email = $('#user-email').val();
-            // $.ajax({
-            //     url: actionUrl,
-            //     type: 'post',
-            //     contentType: "application/json; charset=utf-8",
-            //     data: JSON.stringify({ "username": email })  
-            // }).done(function(xhr, status, error) {
-            //     window.location='thanks.html?email=' + email;
-            // }).fail(function(xhr, status, error) {
-            //     setTimeout(function() {
-            //         $('#message').html('You are too early, or too late. Please Try again.');
-            //         $('#do-request').attr('disabled', false);    
-            //     }, 5000);
-            // });
-            sendToSQS(email);
+            $.ajax({
+                url: actionUrl,
+                type: 'post',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ "username": email })  
+            }).done(function(xhr, status, error) {
+                window.location='thanks.html?email=' + email;
+            }).fail(function(xhr, status, error) {
+                setTimeout(function() {
+                    $('#message').html('You are too early, or too late. Please Try again.');
+                    $('#do-request').attr('disabled', false);    
+                }, 5000);
+            });
         });
     });
   </script>
