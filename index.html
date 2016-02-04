@@ -40,10 +40,11 @@
           $.ajax({
             url: actionUrl,
             type: 'post',
+            dataType: 'json',
             contentType: 'application/json; charset=utf-8'
-          }).done(function(xhr, status, error) {
-            window.location='theform.html';
-          }).always(function(xhr, status, error) {
+          }).done(function(data, status, xhr) {
+            window.location = data.register_page;
+          }).always(function(data, status, xhr) {
             requestActive = false;
             $('#last-update').html(new Date());
           });

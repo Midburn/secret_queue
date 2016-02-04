@@ -34,12 +34,14 @@
           <input type="submit" value="Continue" id="do-request" disabled>
         </form>
         <div id="message" class="ltr">
+            &nbsp;
+        </div>
+        <div id="loading" class="loader smaller-loader hide">
+            
         </div>
       </div>
     </div>
   <script type="text/javascript">
-    var actionUrl = 'https://midburn-queue.herokuapp.com/enqueue', queue;
-    
     checkForm = function() {
         if ($('#name').val() != '' && $('#family').val() != '' && $('#user-email').val() != '') {
             $('#do-request').attr('disabled', false);
@@ -48,8 +50,21 @@
         }
     };
   
+    toggleButton = function(hide) {
+        if (hide) {
+            $('#do-request').attr('disabled', 'disabled');
+            $('#do-request').addClass('hide');
+            $('#loading').removeClass('hide');
+        } else {
+            $('#do-request').attr('disabled', false);
+            $('#do-request').removeClass('hide');
+            $('#loading').addClass('hide');
+            $('#message').html('');
+        }
+    };
+    
     $(document).ready(function() {
-        var actionUrl = 'https://midburn-queue.herokuapp.com/enqueue';
+        var actionUrl = 'https://midburn-queue.herokuapp.com/register';
 
         $('.field').keyup(function() {
            checkForm();
@@ -58,21 +73,24 @@
            checkForm();
         });
         $('#do-request').click(function() {
-            $('#do-request').attr('disabled', 'disabled');
+            toggleButton(true);
             var email = $('#user-email').val();
             $.ajax({
                 url: actionUrl,
                 type: 'post',
                 contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({ "username": email })  
-            }).done(function(xhr, status, error) {
+                data: JSON.stringify({ "email": email })  
+            }).done(function(data, status, xhr) {
                 window.location='thanks.html?email=' + email;
-            }).fail(function(xhr, status, error) {
+            }).fail(function(data, status, xhr) {
                 setTimeout(function() {
+                    toggleButton(false);
                     $('#message').html('You are too early, or too late. Please Try again.');
-                    $('#do-request').attr('disabled', false);    
-                }, 5000);
+                }, 1000);
             });
+            setTimeout(function() {
+               $('#loading').html('still loading...')
+            }, 2000);
         });
     });
   </script>
