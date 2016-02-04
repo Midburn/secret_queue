@@ -79,7 +79,7 @@
                 url: actionUrl,
                 type: 'post',
                 contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({ "email": email })  
+                data: JSON.stringify({ "username": email })  
             }).done(function(data, status, xhr) {
                 window.location='thanks.html?email=' + email;
             }).fail(function(data, status, xhr) {
