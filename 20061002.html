@@ -41,59 +41,7 @@
         </div>
       </div>
     </div>
-  <script type="text/javascript">
-    checkForm = function() {
-        if ($('#name').val() != '' && $('#family').val() != '' && $('#user-email').val() != '') {
-            $('#do-request').attr('disabled', false);
-        } else {
-            $('#do-request').attr('disabled', 'disabled');
-        }
-    };
-  
-    toggleButton = function(hide) {
-        if (hide) {
-            $('#do-request').attr('disabled', 'disabled');
-            $('#do-request').addClass('hide');
-            $('#loading').removeClass('hide');
-        } else {
-            $('#do-request').attr('disabled', false);
-            $('#do-request').removeClass('hide');
-            $('#loading').addClass('hide');
-            $('#message').html('');
-        }
-    };
-    
-    $(document).ready(function() {
-        var actionUrl = 'https://midburn-queue.herokuapp.com/register';
-
-        $('.field').keyup(function() {
-           checkForm();
-        });
-        $('.field').blur(function() {
-           checkForm();
-        });
-        $('#do-request').click(function() {
-            toggleButton(true);
-            var email = $('#user-email').val();
-            $.ajax({
-                url: actionUrl,
-                type: 'post',
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({ "username": email })  
-            }).done(function(data, status, xhr) {
-                window.location='thanks.html?email=' + email;
-            }).fail(function(data, status, xhr) {
-                setTimeout(function() {
-                    toggleButton(false);
-                    $('#message').html('You are too early, or too late. Please Try again.');
-                }, 1000);
-            });
-            setTimeout(function() {
-               $('#loading').html('still loading...')
-            }, 2000);
-        });
-    });
-  </script>
+  <script type="text/javascript" src="js/register.js"></script>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
