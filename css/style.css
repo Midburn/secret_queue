@@ -65,11 +65,11 @@ body {
     border-radius: 5px;
     font-family: 'Alef'; }
     #content form input[type='submit']:disabled {
-      background: #eee;  
+      background: #999;  
     }
     /* line 74, ../sass/style.scss */
     #content form input[type='submit']:disabled:hover {
-      background: #eee;}
+      background: #999;}
     #content form input[type='submit']:hover {
       background: #21379B; }
 .email { font-weight: bold; }
