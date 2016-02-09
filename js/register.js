@@ -1,72 +1,56 @@
-var retries = 0, actionUrl = 'https://midburn-queue.herokuapp.com/register', timeout = 10000, processing = false;
-
-checkForm = function() {
-    if ($('#name').val() != '' && $('#family').val() != '' && $('#user-email').val() != '') {
-        $('#do-request').attr('disabled', false);
-    } else {
-        $('#do-request').attr('disabled', 'disabled');
-    }
+var config = {
+	path: 'http://queue-api.midburn.org/register',
+	maxRetries: 30,
+	waitBetweenRetries: 1000
 };
 
-toggleButton = function(hide) {
-    if (!processing) {
-       if (hide) {
-            $('#do-request').attr('disabled', 'disabled');
-            $('#do-request').addClass('hide');
-            $('#loading').removeClass('hide');
-        } else {
-            $('#do-request').attr('disabled', false);
-            $('#do-request').removeClass('hide');
-            $('#loading').addClass('hide');
-            $('#message').html('');
-        }        
-    }
-};
+var app = angular.module('midburn', []);
 
-register = function() {
-    processing = true;
-    toggleButton(true);
-    var email = $('#user-email').val();
-    $.ajax({
-        url: actionUrl,
-        type: 'post',
-        contentType: "application/json; charset=utf-8",
-        timeout: timeout,
-        data: JSON.stringify({ "username": email })  
-    }).done(function(data, status, xhr) {
-        window.location='thanks.html?email=' + email;
-    }).fail(function(data, status, xhr) {
-        if (retries < 5) {
-            retries++;
-            setTimeout(function() {
-                register();
-            }, 1000);
-        } else if (retries < 30) {
-            retries++;
-            timeout = 15000;
-            setTimeout(function() {
-                register();
-            }, 1000);
-        } else {
-            processing = false;
-            toggleButton(false);
-            $('#message').html('You are too early, or too late. You can go <a href="index.html">here</a> or retry.');
-        }
-        
-    });
-    setTimeout(function() {
-        $('#loading').html('still loading...')
-    }, 2000);
-};
+app.controller('RegisterCtrl', function($scope, $http) {
 
-$(document).ready(function() {
-    $('.field').keyup(function() {
-        checkForm();
-    });
-    $('.field').blur(function() {
-        checkForm();
-    });
-    $('#do-request').click(function() {
-        register();
-    });
+	$scope.retries = 0;
+	var timeout = 10000;
+
+	$scope.sendForm = function() {
+		$scope.processing = true;
+		sendRequest();
+	};
+
+	var sendRequest = function() {
+		$http({
+			url: config.path,
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json; charset=utf-8'
+			},
+			data: {
+				username: $scope.email
+			},
+			timeout: timeout
+		}).then(responseSuccess, responseError);
+	};
+
+	var responseSuccess = function() {
+		window.location = 'thanks.html?email=' + $scope.email;
+	};
+
+	var responseError = function() {
+		if ($scope.retries < config.maxRetries) {
+			$scope.retries += 1;
+			ga('send', 'event', 'register', 'responseError', 'retry', $scope.retries);
+			setTimeout(sendRequest, config.waitBetweenRetries);
+		} else {
+			$scope.processing = false;
+			$scope.cannotProcess = true;
+		}
+	};
+
+	$scope.$watch('retries', function(retries) {
+		if (retries) {
+			if (retries > 5) {
+				timeout = 15000;
+			}
+		}
+	});
+
 });

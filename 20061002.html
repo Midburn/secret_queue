@@ -4,8 +4,7 @@
     <link href="https://fonts.googleapis.com/css?family=Alef:400,700" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-    <script src="js/aws-sdk-2.2.33.min.js"></script>
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   </head>
 
@@ -14,7 +13,7 @@
         <img id="logo" src="images/logo.png">
     </div>
 
-    <div id="content">
+    <div id="content" ng-app="midburn" ng-controller="RegisterCtrl">
       <h1 class="rtl">ברוכים הבאים לתור של מידברן</h1>
       <h1 class="ltr">Welcome to the Midburn queue</h1>
       <div id="text">
@@ -22,31 +21,35 @@
         <p class="ltr">Please enter your profile account email (Be mindful of typos!) and click submit to enter the queue.</p>
       </div>
       <div class="queue-form-wrapper">
-        <form id="queue-form">          
+        <form id="queue-form" ng-submit="sendForm()">
           <div>שם פרטי - First Name:</div>
-          <input type="text" required="" class="rtl field" id="name"><br>
+          <input type="text" required ng-model="firstName" class="rtl field" id="name"><br>
           
 		  <div>שם משפחה - Last Name:</div>
-          <input type="text" required="" class="rtl field" id="family"><br>
+          <input type="text" required ng-model="lastName" class="rtl field" id="family"><br>
           
         <div>E-mail:</div>
-          <input id="user-email" type="email" name="email" id="user-email" class="ltr field"><br>
-          <input type="submit" value="Continue" id="do-request" disabled>
+          <input id="user-email" type="email" ng-model="email" name="email" id="user-email" class="ltr field"><br>
+          <input type="submit" value="Continue" id="do-request" ng-disabled="!firstName || !lastName || !email"
+                 ng-hide="processing || cannotProcess">
         </form>
-        <div id="message" class="ltr">
-            &nbsp;
+        <div id="loading" class="loader smaller-loader" ng-show="processing">
         </div>
-        <div id="loading" class="loader smaller-loader hide">
-            
+        <div class="ltr" ng-show="processing && retries > 0 && !cannotProcess">
+          Still Working..
+        </div>
+        <div id="message" class="ltr" ng-show="cannotProcess">
+          You are too early, or too late. You can go <a href="index.html">here</a> or retry.
         </div>
       </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular.min.js"></script>
   <script type="text/javascript" src="js/register.js"></script>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    })(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
     ga('create', 'UA-47499017-3', 'auto');
     ga('send', 'pageview');
   </script>
