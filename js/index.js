@@ -19,7 +19,6 @@ var success = function(data) {
 
 var error = function(jqXHR, textStatus) {
 	ga('send', 'event', 'index', 'responseError', 'status', textStatus);
-	$('#last-update').html(new Date());
 	setTimeout(send, config.interval);
 };
 
