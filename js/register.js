@@ -1,6 +1,5 @@
 var config = {
 	path: 'http://queue-api.midburn.org/register',
-	maxRetries: 30,
 	waitBetweenRetries: 1000
 };
 
@@ -35,14 +34,8 @@ app.controller('RegisterCtrl', function($scope, $http) {
 	};
 
 	var responseError = function() {
-		if ($scope.retries < config.maxRetries) {
-			$scope.retries += 1;
-			ga('send', 'event', 'register', 'responseError', 'retry', $scope.retries);
-			setTimeout(sendRequest, config.waitBetweenRetries);
-		} else {
-			$scope.processing = false;
-			$scope.cannotProcess = true;
-		}
+        ga('send', 'event', 'register', 'responseError', 'retry', $scope.retries);
+        setTimeout(sendRequest, config.waitBetweenRetries);
 	};
 
 	$scope.$watch('retries', function(retries) {
