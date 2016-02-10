@@ -1,5 +1,5 @@
 var config = {
-	path: 'http://queue-api.midburn.org/register',
+	path: 'https://midburn-queue.herokuapp.com/register',
 	waitBetweenRetries: 1000
 };
 
