@@ -31,16 +31,12 @@
         <div>E-mail:</div>
           <input id="user-email" type="email" ng-model="email" name="email" id="user-email" class="ltr field"><br>
           <input type="submit" value="Continue" id="do-request" ng-disabled="!firstName || !lastName || !email"
-                 ng-hide="processing || cannotProcess">
+                 ng-hide="processing">
         </form>
         <div id="loading" class="loader smaller-loader" ng-show="processing">
         </div>
-        <div class="ltr" ng-show="processing && retries > 0 && !cannotProcess">
+        <div class="ltr" ng-show="processing && retries > 0">
           Still Working..
-        </div>
-        <div id="message" class="ltr" ng-show="cannotProcess">
-          <p class="ltr">You are too early, or too late. You can go <a href="index.html">here</a> or retry.</p>
-          <p class="rtl"><a href="index.html"></a></p>
         </div>
       </div>
     </div>
