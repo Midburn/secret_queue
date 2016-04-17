@@ -22,15 +22,9 @@
       </div>
       <div class="queue-form-wrapper">
         <form id="queue-form" ng-submit="sendForm()">
-          <div>שם פרטי - First Name:</div>
-          <input type="text" required ng-model="firstName" class="rtl field" id="name"><br>
-          
-		  <div>שם משפחה - Last Name:</div>
-          <input type="text" required ng-model="lastName" class="rtl field" id="family"><br>
-          
         <div>E-mail:</div>
           <input id="user-email" type="email" ng-model="email" name="email" id="user-email" class="ltr field"><br>
-          <input type="submit" value="Continue" id="do-request" ng-disabled="!firstName || !lastName || !email"
+          <input type="submit" value="Continue" id="do-request" ng-disabled="!email"
                  ng-hide="processing">
         </form>
         <div id="loader" ng-show="processing">
