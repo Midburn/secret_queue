@@ -23,7 +23,7 @@ app.controller('RegisterCtrl', function($scope, $http) {
 				'Content-Type': 'application/json; charset=utf-8'
 			},
 			data: {
-				username: $scope.email
+				email: $scope.email
 			},
 			timeout: timeout
 		}).then(responseSuccess, responseError);
